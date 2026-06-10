@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NYCPA.online | Search New York CPAs</title>
+    <meta
+      name="description"
+      content="Search New York CPA profiles, compare services, and register a CPA profile for inclusion in NYCPA.online."
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    >
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="#directory" aria-label="NYCPA.online home">
+        <span class="brand-mark">NY</span>
+        <span>
+          <strong>NYCPA.online</strong>
+          <small>CPA directory</small>
+        </span>
+      </a>
+      <nav class="nav" aria-label="Primary navigation">
+        <a href="#directory">Find CPAs</a>
+        <a href="#ai-chat">Ask AI</a>
+        <a href="#register">Register</a>
+        <a href="#data">Data</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-content">
+          <p class="eyebrow">New York CPA marketplace</p>
+          <h1 id="hero-title" class="hero-title">
+            <span>NYCPA.</span>
+            <span>Online</span>
+          </h1>
+          <p>
+            Search CPA profiles by location, specialty, language, and client type.
+            Compare services, fees, credentials, and availability in one searchable directory.
+          </p>
+          <form class="hero-search" id="heroSearch" role="search">
+            <label class="sr-only" for="heroQuery">Search CPAs</label>
+            <input
+              id="heroQuery"
+              type="search"
+              placeholder="Search name, firm, city, industry, or service"
+              autocomplete="off"
+            >
+            <button type="submit">Search</button>
+          </form>
+          <div class="trust-row" aria-label="Directory highlights">
+            <span><strong id="heroCount">0</strong> profiles</span>
+            <span>License-aware profiles</span>
+            <span>CPA self-registration</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-band" aria-label="Directory summary">
+        <div>
+          <strong id="statVerified">0</strong>
+          <span>verified-style records</span>
+        </div>
+        <div>
+          <strong id="statCities">0</strong>
+          <span>NY cities</span>
+        </div>
+        <div>
+          <strong id="statSpecialties">0</strong>
+          <span>service areas</span>
+        </div>
+        <div>
+          <strong id="statAccepting">0</strong>
+          <span>accepting clients</span>
+        </div>
+      </section>
+
+      <section class="directory-section" id="directory" aria-labelledby="directory-title">
+        <div class="section-heading">
+          <p class="eyebrow">Find a CPA</p>
+          <h2 id="directory-title">Searchable New York CPA profiles</h2>
+        </div>
+
+        <div class="directory-layout">
+          <aside class="filters" aria-label="CPA search filters">
+            <div class="filter-group">
+              <label for="query">Search</label>
+              <input id="query" type="search" placeholder="Name, firm, keyword">
+            </div>
+
+            <div class="filter-group">
+              <label for="city">City</label>
+              <select id="city">
+                <option value="">Any city</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="specialty">Specialty</label>
+              <select id="specialty">
+                <option value="">Any specialty</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <label for="clientType">Client type</label>
+              <select id="clientType">
+                <option value="">Any client</option>
+                <option value="Individuals">Individuals</option>
+                <option value="Small businesses">Small businesses</option>
+                <option value="Startups">Startups</option>
+                <option value="Nonprofits">Nonprofits</option>
+                <option value="Real estate">Real estate</option>
+              </select>
+            </div>
+
+            <fieldset class="checks">
+              <legend>Options</legend>
+              <label><input id="acceptingOnly" type="checkbox"> Accepting clients</label>
+              <label><input id="virtualOnly" type="checkbox"> Virtual appointments</label>
+              <label><input id="verifiedOnly" type="checkbox"> Verified-style profile</label>
+            </fieldset>
+
+            <div class="filter-actions">
+              <button class="secondary" id="clearFilters" type="button">Clear</button>
+            </div>
+          </aside>
+
+          <div class="results-wrap">
+            <div class="results-toolbar">
+              <p id="resultCount" aria-live="polite">Showing 0 CPAs</p>
+              <label>
+                Sort
+                <select id="sortBy">
+                  <option value="recommended">Recommended</option>
+                  <option value="rating">Highest rated</option>
+                  <option value="experience">Most experience</option>
+                  <option value="fee">Lowest starting fee</option>
+                </select>
+              </label>
+            </div>
+            <div class="profile-grid" id="profileGrid"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="chat-section" id="ai-chat" aria-labelledby="chat-title">
+        <div class="section-heading">
+          <p class="eyebrow">AI guidance</p>
+          <h2 id="chat-title">Ask CPA-related questions</h2>
+          <p>
+            Get plain-English guidance on tax, bookkeeping, business structure, payroll, deductions,
+            records, and CPA search questions. For legal, tax, or investment decisions, verify with a qualified professional.
+          </p>
+        </div>
+
+        <div class="chat-shell">
+          <div class="chat-log" id="chatLog" aria-live="polite">
+            <div class="chat-message assistant">
+              <strong>NYCPA AI</strong>
+              <p>Ask me a CPA-related question. I can help you prepare better questions for a CPA, understand tax concepts, and compare accounting options.</p>
+            </div>
+          </div>
+          <form class="chat-form" id="chatForm">
+            <label class="sr-only" for="chatInput">Ask a CPA-related question</label>
+            <textarea
+              id="chatInput"
+              rows="3"
+              placeholder="Example: What records should I gather before meeting a CPA about my LLC taxes?"
+              required
+            ></textarea>
+            <button type="submit" id="chatSubmit">Ask</button>
+          </form>
+          <p class="chat-note">
+            Educational guidance only. Do not enter Social Security numbers, bank details, passwords, or private tax IDs.
+          </p>
+        </div>
+      </section>
+
+      <section class="register-section" id="register" aria-labelledby="register-title">
+        <div class="section-heading">
+          <p class="eyebrow">For CPAs</p>
+          <h2 id="register-title">Register or claim a CPA profile</h2>
+          <p>
+            Add professional details, specialties, contact preferences, and license information.
+            Submissions appear locally as pending until your site adds backend review.
+          </p>
+        </div>
+
+        <form class="registration-form" id="registrationForm">
+          <div class="form-grid">
+            <label>
+              Full name
+              <input name="name" required placeholder="Jordan Rivera, CPA">
+            </label>
+            <label>
+              Firm
+              <input name="firm" required placeholder="Rivera Advisory PLLC">
+            </label>
+            <label>
+              NY license number
+              <input name="license" required placeholder="123456">
+            </label>
+            <label>
+              City
+              <input name="city" required placeholder="New York">
+            </label>
+            <label>
+              Borough or region
+              <input name="region" placeholder="Manhattan, Long Island, Hudson Valley">
+            </label>
+            <label>
+              Email
+              <input name="email" type="email" required placeholder="hello@example.com">
+            </label>
+            <label>
+              Phone
+              <input name="phone" placeholder="(212) 555-0100">
+            </label>
+            <label>
+              Website
+              <input name="website" type="url" placeholder="https://example.com">
+            </label>
+            <label>
+              LinkedIn profile
+              <input name="linkedinUrl" type="url" placeholder="https://www.linkedin.com/in/name">
+            </label>
+            <label>
+              Years of experience
+              <input name="experience" type="number" min="0" max="70" value="5">
+            </label>
+            <label>
+              Starting consultation fee
+              <input name="fee" type="number" min="0" step="25" value="250">
+            </label>
+          </div>
+
+          <label>
+            Specialties
+            <input name="specialties" required placeholder="Tax planning, audits, bookkeeping">
+          </label>
+
+          <label>
+            Client types
+            <input name="clients" required placeholder="Individuals, small businesses, startups">
+          </label>
+
+          <label>
+            Languages
+            <input name="languages" placeholder="English, Spanish">
+          </label>
+
+          <label>
+            Professional bio
+            <textarea name="bio" required rows="5" placeholder="Describe your practice, ideal clients, industries, and credentials."></textarea>
+          </label>
+
+          <div class="toggle-row">
+            <label><input name="accepting" type="checkbox" checked> Accepting new clients</label>
+            <label><input name="virtual" type="checkbox" checked> Offers virtual appointments</label>
+          </div>
+
+          <label class="consent">
+            <input name="attestation" type="checkbox" required>
+            I confirm this information is accurate and I am authorized to submit or claim this CPA profile.
+          </label>
+
+          <button type="submit">Submit profile</button>
+          <p class="form-message" id="formMessage" role="status"></p>
+        </form>
+      </section>
+
+      <section class="data-section" id="data" aria-labelledby="data-title">
+        <div class="section-heading">
+          <p class="eyebrow">Directory operations</p>
+          <h2 id="data-title">Data tools for a production CPA directory</h2>
+          <p>
+            Load CSV records, export current profiles, and keep submitted profiles separate from official source data.
+          </p>
+        </div>
+
+        <div class="data-tools">
+          <div>
+            <h3>CSV import</h3>
+            <p>
+              Accepts columns: name, firm, city, region, license, specialties, clients, languages,
+              email, phone, website, address, googlePlaceId, googleMapsUrl, linkedinUrl, rating, reviews,
+              experience, fee, bio, accepting, virtual, source, sourceUrl.
+            </p>
+            <input id="csvImport" type="file" accept=".csv,text/csv">
+          </div>
+          <div>
+            <h3>Google data</h3>
+            <p>
+              Use a Google Places API export or other licensed source for ratings, review counts,
+              Place IDs, Maps links, LinkedIn URLs, and source URLs. Do not copy review text from Google pages
+              or harvest LinkedIn profile data into this directory.
+            </p>
+            <a class="button-link" href="./google-places-import-template.csv" download>Download template</a>
+          </div>
+          <div>
+            <h3>Export</h3>
+            <p>Download all visible directory data, including pending CPA-submitted profiles.</p>
+            <button class="secondary" id="exportCsv" type="button">Export CSV</button>
+          </div>
+          <div>
+            <h3>Reset demo</h3>
+            <p>Restore the original demo records and clear locally submitted profiles.</p>
+            <button class="danger" id="resetData" type="button">Reset local data</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="profile-dialog" id="profileDialog">
+      <button class="close-dialog" id="closeDialog" type="button" aria-label="Close profile">x</button>
+      <div id="profileDetail"></div>
+    </dialog>
+
+    <footer>
+      <strong>NYCPA.online</strong>
+      <span>
+        Directory software prototype. Verify license status through official New York State sources before hiring.
+      </span>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
