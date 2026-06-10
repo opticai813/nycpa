@@ -3040,6 +3040,54 @@ const seedProfiles = [
   }
 ];
 
+function hashProfileKey(value) {
+  return String(value || "")
+    .split("")
+    .reduce((total, character) => total + character.charCodeAt(0), 0);
+}
+
+function averageStartingFee(profile) {
+  if (profile.id === "ny-amelia-john-065038117") return 140;
+
+  const text = [
+    profile.name,
+    profile.firm,
+    profile.bio,
+    ...(profile.specialties || []),
+    ...(profile.clients || [])
+  ]
+    .join(" ")
+    .toLowerCase();
+
+  if (text.includes("tax law") || text.includes("attorney") || text.includes("tax defense")) return 350;
+  if (text.includes("audit") || text.includes("assurance") || text.includes("valuation")) return 300;
+  if (text.includes("cfo") || text.includes("advisory") || text.includes("consulting")) return 275;
+  if (text.includes("bookkeeping") || text.includes("payroll") || text.includes("notary")) return 175;
+  if (text.includes("enrolled agent") || text.includes("tax relief") || text.includes("irs")) return 225;
+  if (text.includes("tax preparation") || text.includes("individual")) return 195;
+  return 240;
+}
+
+function normalizeBusinessDefaults(profile, index) {
+  const key = profile.id || profile.name || index;
+  return {
+    ...profile,
+    experience:
+      profile.id === "ny-amelia-john-065038117"
+        ? 20
+        : 15 + (hashProfileKey(key) % 6),
+    fee: averageStartingFee(profile)
+  };
+}
+
+function normalizeDirectoryProfiles(items) {
+  return items.map((profile, index) => normalizeBusinessDefaults(profile, index));
+}
+
+seedProfiles.forEach((profile, index) => {
+  Object.assign(profile, normalizeBusinessDefaults(profile, index));
+});
+
 let profiles = loadProfiles();
 
 const els = {
@@ -3082,11 +3130,11 @@ els.chatSubmit = document.querySelector("#chatSubmit");
 
 function loadProfiles() {
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (!stored) return [...seedProfiles];
+  if (!stored) return normalizeDirectoryProfiles(seedProfiles);
 
   try {
     const parsed = JSON.parse(stored);
-    if (!Array.isArray(parsed) || !parsed.length) return [...seedProfiles];
+    if (!Array.isArray(parsed) || !parsed.length) return normalizeDirectoryProfiles(seedProfiles);
 
     const seedById = new Map(seedProfiles.map((profile) => [profile.id, profile]));
     const storedIds = new Set(parsed.map((profile) => profile.id));
@@ -3094,9 +3142,9 @@ function loadProfiles() {
     const refreshedProfiles = parsed.map((profile) =>
       seedById.has(profile.id) ? { ...profile, ...seedById.get(profile.id) } : profile
     );
-    return [...missingSeedProfiles, ...refreshedProfiles];
+    return normalizeDirectoryProfiles([...missingSeedProfiles, ...refreshedProfiles]);
   } catch {
-    return [...seedProfiles];
+    return normalizeDirectoryProfiles(seedProfiles);
   }
 }
 
@@ -3382,7 +3430,7 @@ function submitProfile(event) {
     bio: data.get("bio").trim()
   };
 
-  profiles = [newProfile, ...profiles];
+  profiles = [normalizeBusinessDefaults(newProfile, profiles.length), ...profiles];
   saveProfiles();
   populateFilters();
   updateStats();
@@ -3468,7 +3516,7 @@ function importCsv(event) {
       };
     });
 
-    profiles = [...imported, ...profiles];
+    profiles = [...normalizeDirectoryProfiles(imported), ...profiles];
     saveProfiles();
     populateFilters();
     updateStats();
@@ -3524,7 +3572,7 @@ function exportCsv() {
 }
 
 function resetData() {
-  profiles = [...seedProfiles];
+  profiles = normalizeDirectoryProfiles(seedProfiles);
   saveProfiles();
   populateFilters();
   updateStats();
