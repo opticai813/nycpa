@@ -37,6 +37,12 @@ Helpful official docs:
 
 For directory-only browsing, open `index.html` in a browser. No build step is required.
 
+## GitHub Pages
+
+This repository is configured for the custom domain `nycpa.online` through the `CNAME` file. In GitHub, enable Pages from `main` / root.
+
+GitHub Pages is static hosting. The searchable directory, profile cards, profile registration UI, CSV import, and CSV export run in the browser. The AI chat endpoint in `server.js` needs a separate backend host because GitHub Pages cannot run Node server routes.
+
 For AI chat, run the local server so the OpenAI API key stays off the browser:
 
 ```powershell

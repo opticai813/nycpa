@@ -3563,7 +3563,7 @@ async function submitChat(event) {
     appendChatMessage(
       "assistant",
       "NYCPA AI",
-      `${error.message}\n\nIf you opened this page directly from the file, start the local server with npm start and open http://127.0.0.1:8787.`
+      `${error.message}\n\nOn GitHub Pages, the CPA directory works as a static site, but AI chat needs a live backend API. For local testing, start the server with npm start and open http://127.0.0.1:8787.`
     );
   } finally {
     setChatLoading(false);
