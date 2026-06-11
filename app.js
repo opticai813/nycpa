@@ -44,7 +44,7 @@ const seedProfiles = [
     clients: ["Individuals", "Small businesses"],
     languages: ["English"],
     email: "ameliajohn5455@gmail.com",
-    phone: "(917) 544-1220 (Mobile); (212) 283-0357 (Landline)",
+    phone: "312-600-4304 (Business Line)",
     website: "https://www.linkedin.com/in/amelia-john-b7083239/",
     address: "Regus Park - 100 Park Ave #16, New York, NY 10017, United States",
     googlePlaceId: "",
